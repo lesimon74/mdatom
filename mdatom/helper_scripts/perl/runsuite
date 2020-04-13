@@ -1,0 +1,92 @@
+#!/usr/bin/perl
+
+#init variables
+$rcorig= "";
+$norig= "";
+$uforig= "";
+
+$nrange = "5:5:125";
+$rcrange = "2.0:0.1:3.5";
+$ufrange = "1:5:100";
+
+$file="input";
+$old = $file;
+$new = "$file.tmp.$$";
+$bak = "$file.orig";
+
+open(OLD, "< $old")         or die "can't open $old: $!";
+open(NEW, "> $new")         or die "can't open $new: $!";
+
+# Correct typos, preserving case
+while (<OLD>) {
+  s/NAT=(.*);/NAT=$nrange;/;
+  $norig=$1;
+(print NEW $_)          or die "can't write to $new: $!";
+}
+
+close(OLD)                  or die "can't close $old: $!";
+close(NEW)                  or die "can't close $new: $!";
+
+rename($old, $bak)          or die "can't rename $old to $bak: $!";
+rename($new, $old)          or die "can't rename $new to $old: $!"; 
+
+@command=("./dfe.pl","input","res\/varn");
+system(@command);
+
+open(OLD, "< $old")         or die "can't open $old: $!";
+open(NEW, "> $new")         or die "can't open $new: $!";
+
+# Correct typos, preserving case
+while (<OLD>) {
+  if(s/RCUTF=(.*);/RCUTF=$rcrange;/){
+    $rcorig=$1;
+  }
+  s/NAT=(.*);/NAT=$norig;/;
+(print NEW $_)          or die "can't write to $new: $!";
+}
+
+close(OLD)                  or die "can't close $old: $!";
+close(NEW)                  or die "can't close $new: $!";
+
+rename($old, $bak)          or die "can't rename $old to $bak: $!";
+rename($new, $old)          or die "can't rename $new to $old: $!"; 
+
+@command=("./dfe.pl","input","res\/varrc");
+system(@command);
+
+open(OLD, "< $old")         or die "can't open $old: $!";
+open(NEW, "> $new")         or die "can't open $new: $!";
+
+# Correct typos, preserving case
+while (<OLD>) {
+  s/RCUTF=(.*);/RCUTF=$rcorig;/;
+#  s/UF=(.*);/UF=$ufrange;/;
+  if(s/UF=(.*);/UF=$ufrange;/){
+    $uforig=$1;
+  }
+(print NEW $_)          or die "can't write to $new: $!";
+}
+
+close(OLD)                  or die "can't close $old: $!";
+close(NEW)                  or die "can't close $new: $!";
+
+rename($old, $bak)          or die "can't rename $old to $bak: $!";
+rename($new, $old)          or die "can't rename $new to $old: $!"; 
+
+@command=("./dfe.pl","input","res/varupd");
+system(@command);
+
+open(OLD, "< $old")         or die "can't open $old: $!";
+open(NEW, "> $new")         or die "can't open $new: $!";
+
+# Correct typos, preserving case
+while (<OLD>) {
+  s/UF=(.*);/UF=$uforig;/;
+(print NEW $_)          or die "can't write to $new: $!";
+}
+
+close(OLD)                  or die "can't close $old: $!";
+close(NEW)                  or die "can't close $new: $!";
+
+rename($old, $bak)          or die "can't rename $old to $bak: $!";
+rename($new, $old)          or die "can't rename $new to $old: $!"; 

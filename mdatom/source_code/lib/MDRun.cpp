@@ -123,9 +123,17 @@ void MDRun::performStep(std::vector<double>& positions, std::vector<double>& vel
     }
 
     /* update arrays for averages and fluctuations */
-    for (int m = 0; m < numberProperties; m++) {
+    /*for (int m = 0; m < numberProperties; m++) {
         averages[m] += properties[m];
         fluctuations[m] += properties[m] * properties[m];
+    }*/
+    // Code for task 1 of 6.5. Comment out the above 4 lines when using this code.
+    // Note(lesimon): the indices in the formula were shifted by 1, because nstep starts at 0 instead of 1.
+    for (int m = 0; m < numberProperties; m++) {
+        if (nstep > 1) {
+            fluctuations[m] += (std::pow(averages[m] - (nstep) * properties[m], 2) / (nstep*(nstep+1)));
+        }
+        averages[m] += properties[m];
     }
 
     printOutputForStep(positions, velocities, nstep, time);
@@ -162,7 +170,9 @@ void MDRun::printAverages(double time) {
     double tspan = par.numberMDSteps;
     for (int m = 0; m < numberProperties; m++) {
         averages[m] = averages[m] / tspan;
-        fluctuations[m] = std::sqrt(std::abs(fluctuations[m] / tspan - averages[m] * averages[m]));
+        // fluctuations[m] = std::sqrt(std::abs(fluctuations[m] / tspan - averages[m] * averages[m]));
+        // For implementing 6.5 task 1, comment out code above and implement:
+        fluctuations[m] = std::sqrt(fluctuations[m] / tspan);
     }
     output.printAverages(par.numberMDSteps, time, averages);
     output.printRMSFluctuations(par.numberMDSteps, time, fluctuations);

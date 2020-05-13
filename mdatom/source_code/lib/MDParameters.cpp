@@ -89,6 +89,14 @@ TrajectoryFileFormat trajectoryFileFormatFromInt(int ntpw) {
         return TrajectoryFileFormat::binary;
     if (ntpw == 2)
         return TrajectoryFileFormat::ascii;
+    if (ntpw == 3)
+        return TrajectoryFileFormat::velocityBinary;
+    if (ntpw == 4)
+        return TrajectoryFileFormat::velocityAscii;
+    if (ntpw == 5)
+        return TrajectoryFileFormat::positionAndVelocityBinary;
+    if (ntpw == 6)
+        return TrajectoryFileFormat::positionAndVelocityAscii;
 
     throw std::runtime_error("Invalid value for TrajectoryOutputFormat");
 }
@@ -99,6 +107,14 @@ int trajectoryFileFormatToInt(TrajectoryFileFormat ntpw) {
             return 0;
         case TrajectoryFileFormat::ascii:
             return 2;
+        case TrajectoryFileFormat::velocityBinary:
+            return 3;
+        case TrajectoryFileFormat::velocityAscii:
+            return 4;
+        case TrajectoryFileFormat::positionAndVelocityBinary:
+            return 5;
+        case TrajectoryFileFormat::positionAndVelocityAscii:
+            return 6;
     }
 }
 

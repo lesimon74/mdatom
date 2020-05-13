@@ -44,7 +44,7 @@ void MDSimulation::initializeCoordinatesAndVelocities(const std::string& coordin
 }
 
 void MDSimulation::executeMDIterations() {
-    TrajectoryFileWriter trajectoryWriter(parameters, "coords.final", "coords.traj");
+    TrajectoryFileWriter trajectoryWriter(parameters, "coords.final", "coords.traj", "velocities.traj");
     trajectoryWriter.writeBeforeRun();
 
     timer.mdStart();

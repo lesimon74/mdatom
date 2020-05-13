@@ -10,7 +10,11 @@ enum class FinalCoordinateFileFormat {
 
 enum class TrajectoryFileFormat {
     binary,
-    ascii
+    ascii,
+    velocityBinary,
+    velocityAscii,
+    positionAndVelocityBinary,
+    positionAndVelocityAscii
 };
 
 enum class InitialXVGenerator {

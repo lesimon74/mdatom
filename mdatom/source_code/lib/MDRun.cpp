@@ -141,7 +141,7 @@ void MDRun::performStep(std::vector<double>& positions, std::vector<double>& vel
 
 void MDRun::printOutputForStep(const std::vector<double> &positions, const std::vector<double> &velocities, int nstep, double time) {
     if ((nstep + 1) == (nstep + 1) / par.trajectoryOutputInterval * par.trajectoryOutputInterval) {
-        trajectoryWriter.writeOutTrajectoryStep(positions);
+        trajectoryWriter.writeOutTrajectoryStep(positions, velocities);
     }
 
     if (nstep == (nstep + 1) / nhpr * nhpr) {

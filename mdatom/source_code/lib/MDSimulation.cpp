@@ -6,6 +6,11 @@
 #include "ParameterValidityChecker.h"
 #include "RandomNumberGenerator.h"
 
+#include "CorrelationCalculator.h"
+#include "TrajectoryFileReader.h"
+
+#include <memory>
+
 MDSimulation::MDSimulation(std::ostream& outputStream)
   : output(outputStream) {
 }
@@ -17,6 +22,12 @@ void MDSimulation::performSimulation(const std::string& parameterFile, const std
 
 void MDSimulation::performSimulation(const MDParameters& par, const std::string& coordinateFile) {
     parameters = par;
+    if (par.mdType == SimulationType::calculateCorrelation) {
+        std::unique_ptr<TrajectoryFileReader> trajectoryReader{new TrajectoryFileReader(coordinateFile, parameters)};
+        CorrelationCalculator correlationCalculator{std::move(trajectoryReader)};
+        correlationCalculator.printCorrelation();
+        return;
+    }
     prepareRun();
     checkParameterValidity();
     initializeCoordinatesAndVelocities(coordinateFile);

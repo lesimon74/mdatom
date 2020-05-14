@@ -35,7 +35,7 @@ void MDRun::run(std::vector<double> &x, std::vector<double> &v) {
 
 void MDRun::initializeVariables() {
     nat3 = 3 * par.numberAtoms;
-    const double boltzmannConstant = 8.3144598e-3; // units: K^-1 ps^-2 u nm^2
+    constexpr double boltzmannConstant = 8.3144598e-3; // units: K^-1 ps^-2 u nm^2
     fac = nat3 * boltzmannConstant / 2.;
     ekin0 = fac * par.targetTemperature;
     halfTimeStep = par.timeStep / 2;

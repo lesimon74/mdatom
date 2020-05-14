@@ -123,6 +123,8 @@ SimulationType simulationTypeFromInt(int ntt) {
         return SimulationType::constantEnergy;
     if (ntt == 1)
         return SimulationType::constantTemperature;
+    if (ntt == 2)
+        return SimulationType::calculateCorrelation;
 
     throw std::runtime_error("Invalid value for MDType");
 }
@@ -133,5 +135,7 @@ int simulationTypeToInt(SimulationType ntt) {
             return 0;
         case SimulationType::constantTemperature:
             return 1;
+        case SimulationType::calculateCorrelation:
+            return 2;
     }
 }

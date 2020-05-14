@@ -27,7 +27,8 @@ enum class InitialXVGenerator {
 
 enum class SimulationType {
     constantEnergy,
-    constantTemperature
+    constantTemperature,
+    calculateCorrelation
 };
 
 /*!

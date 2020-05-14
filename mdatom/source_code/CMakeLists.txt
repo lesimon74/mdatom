@@ -28,6 +28,8 @@ set (headers
      lib/PeriodicBoundaryConditions.h
      lib/CenterOfMassCalculator.h
      lib/RandomNumberGenerator.h
+     lib/CorrelationCalculator.h
+     lib/TrajectoryFileReader.h
 )
 
 set (sources
@@ -47,6 +49,8 @@ set (sources
      lib/PeriodicBoundaryConditions.cpp
      lib/CenterOfMassCalculator.cpp
      lib/RandomNumberGenerator.cpp
+     lib/CorrelationCalculator.cpp
+     lib/TrajectoryFileReader.cpp
 )
 
 add_library(mdatomLib ${sources} ${headers})

@@ -3,7 +3,10 @@ cmake_minimum_required (VERSION 3.1)
 project (MDAtom)
 
 # Activate c++11 flag
+set (CMAKE_CXX_COMPILER g++)
 set (CMAKE_CXX_STANDARD 11)
+#set (CMAKE_CXX_FLAGS "-lfftw3 -lm")
+set (CMAKE_SHARED_LINKER_FLAGS "-lfftw3 -lm")
 
 # set default build type to Release
 if(NOT CMAKE_BUILD_TYPE)
@@ -53,9 +56,12 @@ set (sources
      lib/TrajectoryFileReader.cpp
 )
 
-add_library(mdatomLib ${sources} ${headers})
+set( FFTW_DIRECTORY "/usr/local/include" )
+
+add_library(mdatomLib ${sources} ${headers} )
 set_target_properties(mdatomLib PROPERTIES POSITION_INDEPENDENT_CODE ON)
-target_include_directories(mdatomLib PUBLIC lib)
+target_include_directories(mdatomLib PUBLIC lib ${FFTW_DIRECTORY})
+LINK_DIRECTORIES(/usr/local/lib)
 
 add_executable(mdatom main.cpp)
-target_link_libraries(mdatom mdatomLib)
+target_link_libraries(mdatom mdatomLib fftw3)

@@ -5,7 +5,7 @@
 #include <fstream>
 
 TrajectoryFileReader::TrajectoryFileReader(const std::string& inputFileName, const MDParameters& par):
-    calculationType{finalCoordinateFileFormatToInt(par.finalXVOutput)},
+    calculationType{trajectoryFileFormatToInt(par.trajectoryOutputFormat)},
     nAtoms{static_cast<std::size_t>(par.numberAtoms)},
     nTimeframes{static_cast<std::size_t>(par.numberMDSteps/par.trajectoryOutputInterval)},
     fileName{inputFileName}

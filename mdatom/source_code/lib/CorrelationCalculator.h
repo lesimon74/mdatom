@@ -16,6 +16,8 @@ private:
     std::size_t nAtoms;
     std::size_t nTimeframes;
     std::vector<double> correlations;
+    std::vector<double> meanVelocities; // Stores the mean value for each atom over all trajectories.
+    std::vector<double> standardDeviationPerAtom;
     std::vector<std::vector<double>> velocities;
     std::unique_ptr<TrajectoryFileReader> fReader;
 

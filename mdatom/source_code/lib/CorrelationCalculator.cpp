@@ -63,7 +63,7 @@ void CorrelationCalculator::calculateCorrelation()
         auto end_time = std::chrono::high_resolution_clock::now();
         auto time = end_time - start_time;
         std::cout << "Time required to calculate correlation: " << time/std::chrono::milliseconds(1) << " ms.\n";
-    } else if (fReader->getCalculationType() == 1) { // FFT method
+    } else if (fReader->getCalculationType() == 2) { // FFT method
         auto start_time = std::chrono::high_resolution_clock::now();
         for (std::size_t i = 0; i < nAtoms; ++i) {
             fftw_complex *in, *out;
@@ -101,7 +101,20 @@ void CorrelationCalculator::calculateCorrelation()
         auto end_time = std::chrono::high_resolution_clock::now();
         auto time = end_time - start_time;
         std::cout << "Time required to calculate correlation: " << time/std::chrono::milliseconds(1) << " ms.\n";
-    } else if (fReader->getCalculationType() == 2) { // Calculate correlation only for a specific atom.
+    } else if (fReader->getCalculationType() == 3) { // Calculate correlation only for a specific atom.
+        // Use std::cerr so it doesn't get redirected to file if user tries to do so. (e.g. ./mdatom params.inp > out.txt)
+        std::cerr << "Please enter the number of the atom for which you would like to calculate the correlation (1-" << nAtoms << "): " << std::flush;
+        // Assume the user is not retarded and a valid input is given.
+        double j{0};
+        std::cin >> j;
+        for (std::size_t i = 0; i < nTimeframes; ++i) {
+            double sum{0};
+            for (std::size_t k = 0; k < nTimeframes-i; ++k) {
+                sum += (velocities.at(k).at(j)-meanVelocities.at(j))*(velocities.at(k+i).at(j)-meanVelocities.at(j));
+            }
+            correlations[i] += (sum/(nTimeframes-i)/standardDeviationPerAtom.at(j)/standardDeviationPerAtom.at(j));
+        }
+    } else if (fReader->getCalculationType() == 4) { // Calculate correlation only for a specific atom.
         // Use std::cerr so it doesn't get redirected to file if user tries to do so. (e.g. ./mdatom params.inp > out.txt)
         std::cerr << "Please enter the number of the atom for which you would like to calculate the correlation (1-" << nAtoms << "): " << std::flush;
         // Assume the user is not retarded and a valid input is given.
@@ -136,6 +149,6 @@ void CorrelationCalculator::calculateCorrelation()
         fftw_free((fftw_complex*)in);
         fftw_free((fftw_complex*)out);
     } else {
-        std::cout << "Please set XVOutput to 0 (direct multiplication method), 1 (FFT method) or 2 (for calculating the correlation only of a specific atom)\n";
+        std::cout << "Please set XVOutput to 0 (direct multiplication method), 2 (FFT method), 3 (for calculating the correlation only of a specific atom with the direct method) or 4 (for calculating the correlation only of a specific atom with the FFT method)\n";
     }
 }

@@ -5,13 +5,13 @@ Test 3, 1000 atoms
 #                  BoxSize(x)                 BoxSize(y)                 BoxSize(z)
                        10.436                     10.436                     10.436
 #               NumberMDSteps                InitialTime                   TimeStep
-                         1000                          0                      0.005
+                          500                          0                      0.005
 #          InitialTemperature          TargetTemperature    TemperatureCouplingTime
                        120.27                     120.27                        0.1
 #                  RandomSeed
                      10021988
 #            XVInitialization  CoordInitializationSpread              FinalXVOutput
-                            0                          0                          1
+                            0                          0                          0
 #          NAtomsOnBoxEdge(x)         NAtomsOnBoxEdge(y)         NAtomsOnBoxEdge(z)
                            10                         10                         10
 #                   EpsilonLJ                    SigmaLJ    InteractionCutoffRadius
@@ -19,4 +19,4 @@ Test 3, 1000 atoms
 #    PropertyPrintingInterval    NumberRadialDistrPoints    RadialDistrCutoffRadius
                           100                        100                        2.5
 #            TrajectoryOutput     TrajectoryOutputFormat   TrajectoryOutputInterval
-                            1                          6                          5
+                            1                          3                          1
